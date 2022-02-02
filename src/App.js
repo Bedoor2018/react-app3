@@ -11,7 +11,7 @@ function Card(props) {
         <div className="d-flex flex-column">
           <div className="d-flex flex-row justify-content-between align-items-center mb-2">
             <div class="d-flex flex-row justify-content-between align-items-center mb-2">
-              <span class="item px-2 rounded">{props.label}</span>
+              <span class="item px-2 rounded">{props.label==2022?"New":""}</span>
             </div>
             <div>
               <i className="fa fa-heart-o ml-2" />
@@ -70,16 +70,14 @@ function getHigher(params) {
 //to get card higher than 50 and lower than 50
 function PrintSpecificCards(params, target) {
   return( params
-    .filter(p => (target == "H" ? p.price >= 50 : p.price < 50))
-    .map((p, index) => {
-      return <Card img={p.img} name={p.name} price={p.price} />;
-    }));
+    .filter(p => (target == "H" ? p.price >= 50 :p.price < 50))
+    );
 }
 
 //to print All card
-function printAllCards(params) {
+function printAllCards(params=[]) {
   return params.map((product, index) => {
-    return <Card img={product.img} name={product.name} price={product.price} />;
+    return <Card img={product.img} name={product.name} price={product.price} label={product.date.year} />;
   });
 }
 
@@ -87,56 +85,95 @@ function printAllCards(params) {
 function PrintNewCards(params) {
   const d = new Date();
   return( params
-    .filter(p => (p.date.year=== d.getFullYear()))
-    .map((p, index) => {
-      return <Card img={p.img} name={p.name} price={p.price} label="New" />;
-    }));
+    .filter(p => (p.date.year=== d.getFullYear())))
 }
 export default class App extends Component {
   constructor(props) {
     super(props);
-  }
-  //Array of products
 
-  products = [
-    {
-      img: "https://i.imgur.com/bV1xmG5.jpg",
-      name: "Timpot sofa set",
-      price: 40,
-      date: { month: 10, year: 2019 }
-    },
-    {
-      img: "https://i.imgur.com/hRlGe10.jpg",
-      name: "Migol sofa set",
-      price: 20,
-      date: { month: 8, year: 2020 }
-    },
-    {
-      img: "https://i.imgur.com/vgMi4nw.jpg",
-      name: "Mithon sofa set",
-      price: 70,
-      date: { month: 3, year: 2019 }
-    },
-    {
-      img: "https://i.imgur.com/beeeLPf.jpg",
-      name: "Tixon sofa set",
-      price: 35,
-      date: { month: 10, year: 2021 }
-    },
-    {
-      img: "https://i.imgur.com/R9Y4IG7.jpg",
-      name: "Lusy sofa set",
-      price: 90,
-      date: { month: 1, year: 2022 }
-    },
-    {
-      img: "https://i.imgur.com/6qKAkNk.jpg",
-      name: "Piply sofa set",
-      price: 70,
-      date: { month: 2, year: 2022 }
+    this.state={
+      products: [
+        {
+          img: "https://i.imgur.com/bV1xmG5.jpg",
+          name: "Timpot sofa set",
+          price: 40,
+          date: { month: 10, year: 2019 }
+        },
+        {
+          img: "https://i.imgur.com/hRlGe10.jpg",
+          name: "Migol sofa set",
+          price: 20,
+          date: { month: 8, year: 2020 }
+        },
+        {
+          img: "https://i.imgur.com/vgMi4nw.jpg",
+          name: "Mithon sofa set",
+          price: 70,
+          date: { month: 3, year: 2019 }
+        },
+        {
+          img: "https://i.imgur.com/beeeLPf.jpg",
+          name: "Tixon sofa set",
+          price: 35,
+          date: { month: 10, year: 2021 }
+        },
+        {
+          img: "https://i.imgur.com/R9Y4IG7.jpg",
+          name: "Lusy sofa set",
+          price: 90,
+          date: { month: 1, year: 2022 }
+        },
+        {
+          img: "https://i.imgur.com/6qKAkNk.jpg",
+          name: "Piply sofa set",
+          price: 70,
+          date: { month: 2, year: 2022 }
+        }
+      ]
     }
-  ];
+  };
+   resetState =()=>{
+    this.setState({products:[
+      {
+        img: "https://i.imgur.com/bV1xmG5.jpg",
+        name: "Timpot sofa set",
+        price: 40,
+        date: { month: 10, year: 2019 }
+      },
+      {
+        img: "https://i.imgur.com/hRlGe10.jpg",
+        name: "Migol sofa set",
+        price: 20,
+        date: { month: 8, year: 2020 }
+      },
+      {
+        img: "https://i.imgur.com/vgMi4nw.jpg",
+        name: "Mithon sofa set",
+        price: 70,
+        date: { month: 3, year: 2019 }
+      },
+      {
+        img: "https://i.imgur.com/beeeLPf.jpg",
+        name: "Tixon sofa set",
+        price: 35,
+        date: { month: 10, year: 2021 }
+      },
+      {
+        img: "https://i.imgur.com/R9Y4IG7.jpg",
+        name: "Lusy sofa set",
+        price: 90,
+        date: { month: 1, year: 2022 }
+      },
+      {
+        img: "https://i.imgur.com/6qKAkNk.jpg",
+        name: "Piply sofa set",
+        price: 70,
+        date: { month: 2, year: 2022 }
+      }
+    ]})
+  };
 
+  
 //render function
   render() {
     return (
@@ -144,7 +181,11 @@ export default class App extends Component {
         <div className="p-2 bg-white px-4 rounded">
           <div className="d-flex flex-row justify-content-between align-items-center">
             <div className="d-flex flex-row align-items-center filters">
-              <button className="ml-2" onClick={printAllCards(this.products)}>
+              <button className="ml-2" 
+               onClick={()=>{
+                this.resetState()
+                }}
+              >
                 All products
               </button>
             </div>
@@ -152,7 +193,9 @@ export default class App extends Component {
               <div className="sub-cat ml-2">
                 <button
                   className="text-muted"
-                  onClick={PrintSpecificCards(this.products, "L")}
+                   onClick={()=>{
+                    this.setState({products:PrintSpecificCards(this.state.products,"L")})
+                  }}
                 >
                   Lower than 50$
                 </button>
@@ -160,7 +203,9 @@ export default class App extends Component {
               <div className="sub-cat ml-2">
                 <button
                   className="text-muted"
-                  onClick={PrintSpecificCards(this.products, "H")}
+                   onClick={()=>{
+                    this.setState({products:PrintSpecificCards(this.state.products,"H")})
+                  }}
                 >
                   higher than 50$
                 </button>
@@ -168,13 +213,19 @@ export default class App extends Component {
             </div>
             <div className="d-flex flex-row align-items-center filters">
               <div className="d-flex flex-row align-items-center">
-                <button className="ml-2">New products</button>
+                <button className="ml-2" onClick={()=>{
+                  this.setState({products:PrintNewCards(this.state.products)})
+                }}>New products</button>
               </div>
             </div>
           </div>
         </div>
         <div className="row" id="x">
-        {printAllCards(this.products)}</div>
+        {
+          printAllCards(this.state.products)
+        }
+        
+        </div>
       </div>
     );
   }
